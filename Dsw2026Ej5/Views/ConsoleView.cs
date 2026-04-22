@@ -78,10 +78,10 @@ public class ConsoleView
         {
             vehiculos.Add(vehiculo.GetPatente(), vehiculo.GetKmARecorrer());
         }
-        (double, double) totalConsumos = Controlador.CalcularConsumos(vehiculos);
+        (double, double) totalConsumos = Controlador.CalcularConsumos(_vehiculos);
         DibujarLinea();
-        Console.WriteLine($"Total consumo Vehículos Eléctricos: {totalConsumos.Item1} kWh");
-        Console.WriteLine($"Total consumo Vehículos Combustible: {totalConsumos.Item2} Litros");
+        Console.WriteLine($"Total consumo Vehículos Eléctricos: {Math.Round(totalConsumos.Item1, 2)} kWh");
+        Console.WriteLine($"Total consumo Vehículos Combustible: {Math.Round(totalConsumos.Item2, 2)} Litros");
         DibujarLinea();
         Console.Write("\n");
         Console.Write("\n");

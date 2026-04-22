@@ -15,21 +15,30 @@ public class Controlador
         return vehiculos;
     }
 
-    public static (double, double) CalcularConsumos(Dictionary<string, double> vehiculos)
+    public static (double, double) CalcularConsumos(List<VehiculoViewModel> vehiculosVM)
     {
         double consumoElectricos = 0;
         double consumoCombustible = 0;
-        foreach (KeyValuePair<string, double> entry in vehiculos)
+
+        foreach (var vm in vehiculosVM)
         {
-            double consumo = 0;
-            Vehiculo? vehiculo = Persistencia.GetVehiculo(entry.Key);
+            Vehiculo vehiculo = Persistencia.GetVehiculo(vm.GetPatente());
+
             if (vehiculo != null)
             {
-                consumo = vehiculo.CalcularConsumo(entry.Value);
-                consumoElectricos += vehiculo.EsDe(VehiculoTipo.Electrico) ? consumo : 0;
-                consumoCombustible += vehiculo.EsDe(VehiculoTipo.Combustible) ? consumo : 0;
+                double consumo = vehiculo.CalcularConsumo(vm.GetKmARecorrer());
+
+                if (vehiculo.EsDe(VehiculoTipo.Electrico))
+                {
+                    consumoElectricos += consumo;
+                }
+                else if (vehiculo.EsDe(VehiculoTipo.Combustible))
+                {
+                    consumoCombustible += consumo;
+                }
             }
         }
+
         return (consumoElectricos, consumoCombustible);
     }
 }
